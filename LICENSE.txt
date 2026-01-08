@@ -1,0 +1,31 @@
+=> LICENCIA DE USO DEL TEMPLATE (Adaptación para Vicora 5)
+
+Este sitio web utiliza una plantilla HTML cuya versión original ha sido creada por HTML Codex y se distribuye bajo la licencia Creative Commons Attribution 4.0 International.  
+Dicha licencia exige mantener la atribución al autor original, por lo que Vicora 5 reconoce y respeta expresamente dichos derechos.
+
+A continuación se detallan las condiciones de uso aplicables a esta plantilla en su adaptación para Vicora 5:
+
+=> PERMISOS OTORGADOS POR LA LICENCIA
+
+1. Vicora 5 puede utilizar esta plantilla para fines personales, corporativos y comerciales.
+2. Vicora 5 puede modificar, personalizar y adaptar el diseño, contenido y código según sus necesidades.
+3. Vicora 5 puede integrar o portar esta plantilla a cualquier sistema CMS o plataforma web.
+4. Vicora 5 puede mostrar capturas, ejemplos visuales o enlaces del sitio adaptado en su material corporativo.
+5. Vicora 5 mantiene todos sus derechos sobre los contenidos propios añadidos: textos, imágenes, logotipos, catálogos y dossieres.
+
+=> RESTRICCIONES DE LA LICENCIA ORIGINAL
+
+1. No se permite eliminar el crédito/atribución al autor original sin adquirir la licencia de eliminación de créditos:  
+   https://htmlcodex.com/credit-removal
+
+2. No está permitido revender, sublicenciar, alquilar o redistribuir esta plantilla como producto independiente.
+
+3. No está permitido subir esta plantilla (original o modificada) a bancos de plantillas, repositorios o marketplaces sin permiso del autor original.
+
+En caso de incumplimiento de estas condiciones, la licencia original puede ser revocada.
+
+Para dudas relacionadas con los derechos del autor de la plantilla original, puede consultarse:  
+https://htmlcodex.com/contact
+
+=> LICENCIA DE ELIMINACIÓN DE CRÉDITOS  
+https://htmlcodex.com/credit-removal
