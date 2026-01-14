@@ -9675,3 +9675,19 @@ h6,
   padding: 0;
   list-style-type: none;
 }
+
+.team-carousel .team-item img {
+    width: 100%;
+    height: 330px;   
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0;
+}
+
+.about-img {
+    width: 100%;
+    height: 280px; 
+    object-fit: cover;
+    object-position: center;
+    border-radius: 30; /* opcional */
+}
