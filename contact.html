@@ -103,23 +103,28 @@
                 <div class="col-md-7">
                     <div class="contact-form">
                         <div id="success"></div>
-                        <form name="contact" method="POST" data-netlify="true">
-    <input type="hidden" name="form-name" value="contact">
+                            <form name="contact" method="POST" data-netlify="true" action="/">
+                                <input type="hidden" name="form-name" value="contact">
+    
+                                 <!-- Anti-spam honeypot -->
+                                <input type="hidden" name="bot-field">
 
-    <div class="control-group">
-        <input type="text" class="form-control" name="name" placeholder="Nombre" required>
-    </div>
+                                <div class="control-group mb-3">
+                                    <input type="text" class="form-control" name="name" placeholder="Nombre" required>
+                                </div>
 
-    <div class="control-group">
-        <input type="email" class="form-control" name="email" placeholder="Email" required>
-    </div>
+                                <div class="control-group mb-3">
+                                    <input type="email" class="form-control" name="email" placeholder="Email" required>
+                                </div>
 
-    <div class="control-group">
-        <textarea class="form-control" name="message" rows="5" placeholder="Mensaje" required></textarea>
-    </div>
+                                <div class="control-group mb-3">
+                                    <textarea class="form-control" name="message" rows="5" placeholder="Mensaje" required></textarea>
+                                </div>
 
-    <button class="btn btn-primary mt-3" type="submit">Enviar</button>
-</form>
+                                <button class="btn btn-primary mt-3" type="submit">
+                                Enviar mensaje
+                                </button>
+                            </form>
 
                     </div>
                 </div>
