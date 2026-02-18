@@ -9691,3 +9691,42 @@ h6,
     object-position: center;
     border-radius: 30; /* opcional */
 }
+
+.galeria-img {
+    width: 100%;
+    height: 250px;        /* Puedes cambiar a 220px o 300px si quieres */
+    object-fit: cover;    /* Recorta sin deformar */
+}
+
+.owl-carousel .owl-stage {
+    display: flex;
+}
+
+.marquee-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 30px;
+    animation: scroll 25s linear infinite;
+}
+
+.marquee-item {
+    min-width: 250px;
+    text-align: center;
+}
+
+.marquee-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
