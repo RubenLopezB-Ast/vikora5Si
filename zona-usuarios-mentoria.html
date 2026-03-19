@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Zona Usuarios Mentoría - Vikora5</title>
+
+<link href="css/style.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<style>
+body {
+    text-align: center;
+    padding: 50px;
+}
+
+.card {
+    max-width: 400px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Zona Usuarios Mentoría</h1>
+
+<div id="auth" class="card">
+
+    <h3>Acceso</h3>
+
+    <input type="email" id="email" placeholder="Email" class="form-control mb-3">
+    <input type="password" id="password" placeholder="Contraseña" class="form-control mb-3">
+
+    <button onclick="login()" class="btn btn-primary btn-block mb-2">Entrar</button>
+    <button onclick="register()" class="btn btn-secondary btn-block">Registrarse</button>
+
+</div>
+
+<div id="contenido" style="display:none;" class="card">
+
+    <h3>Contenido Exclusivo</h3>
+
+    <p>Bienvenido a la zona privada de mentoría.</p>
+
+    <div class="mb-3">
+    <button onclick="togglePDFs()" class="btn btn-primary btn-block">
+        <i class="fas fa-file-download mr-2"></i> Descargar Material
+    </button>
+</div>
+
+<div id="pdfs" style="display:none;">
+
+    <a href="docs/guia-activos-digitales.pdf" download class="btn btn-light btn-block mb-2">
+        <i class="fas fa-file-pdf text-danger mr-2"></i> Presentacion
+    </a>
+
+</div>
+
+
+    <div class="mb-3">
+    <button onclick="toggleRecursos()" class="btn btn-primary btn-block">
+        <i class="fas fa-folder-open mr-2"></i> Acceso a Recursos
+    </button>
+</div>
+
+<div id="recursos" style="display:none;">
+
+    <a href="https://www.notion.so/Activos-digitales-30d6035aa9f680a4a840fc5b185eacc4" 
+       target="_blank" 
+       class="btn btn-light btn-block mb-2">
+       <i class="fas fa-book text-primary mr-2"></i> Notion Activos Digitales
+    </a>
+
+    <!-- FUTUROS RECURSOS -->
+    <!--
+    <a href="pdf1.pdf" class="btn btn-light btn-block mb-2">
+       <i class="fas fa-file-pdf text-danger mr-2"></i> Guía PDF
+    </a>
+    -->
+
+</div>
+
+    <button onclick="logout()" class="btn btn-danger btn-block">Cerrar sesión</button>
+
+</div>
+
+<script>
+const supabase = supabase.createClient(
+  "https://ghbxbxdrjqvdtgpwcypp.supabase.co",
+  "sb_publishable_C6qXiQ_JPYDjMpsQcHIAcw_qQwSh5U0"
+);
+
+// 📌 EMAILS AUTORIZADOS (EDITA ESTO)
+const allowedEmails = [
+  "rlb210983@gmail.com",
+  "cliente1@email.com",
+  "cliente2@email.com"
+];
+
+// 🔐 REGISTRO
+async function register() {
+  const email = emailInput();
+  const password = passInput();
+
+  const { error } = await supabase.auth.signUp({ email, password });
+
+  if (error) {
+    alert(error.message);
+  } else {
+    alert("Registro completado.\n\nTu cuenta está pendiente de validación por Vikora5.\n\nRecibirás acceso una vez autorizada.");
+  }
+}
+
+// 🔐 LOGIN
+async function login() {
+  const email = emailInput();
+  const password = passInput();
+
+  if (!allowedEmails.includes(email)) {
+    alert("Tu cuenta existe pero aún no está activada.\n\nContacta con Vikora5 para habilitar el acceso.");
+    return;
+  }
+
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    alert(error.message);
+  } else {
+    mostrar();
+  }
+}
+
+// 👁 MOSTRAR CONTENIDO
+function mostrar() {
+  document.getElementById("auth").style.display = "none";
+  document.getElementById("contenido").style.display = "block";
+}
+
+// 🚪 LOGOUT
+async function logout() {
+  await supabase.auth.signOut();
+  location.reload();
+}
+
+// 📥 INPUTS
+function emailInput() {
+  return document.getElementById("email").value;
+}
+
+function passInput() {
+  return document.getElementById("password").value;
+}
+
+// 🔄 SESIÓN ACTIVA
+supabase.auth.getSession().then(({ data }) => {
+  if (data.session) mostrar();
+});
+</script>
+
+</body>
+</html>
