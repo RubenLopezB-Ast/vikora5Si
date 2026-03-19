@@ -5,7 +5,7 @@
 <title>Zona Usuarios Mentoría - Vikora5</title>
 
 <link href="css/style.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 body {
@@ -89,7 +89,7 @@ body {
 </div>
 
 <script>
-const supabase = supabase.createClient(
+const supabaseClient = supabase.createClient(
   "https://ghbxbxdrjqvdtgpwcypp.supabase.co",
   "sb_publishable_C6qXiQ_JPYDjMpsQcHIAcw_qQwSh5U0"
 );
@@ -106,7 +106,7 @@ async function register() {
   const email = emailInput();
   const password = passInput();
 
-  const { error } = await supabase.auth.signUp({ email, password });
+  const { error } = await supabaseClient.auth.signUp({ email, password });
 
   if (error) {
     alert(error.message);
@@ -125,7 +125,7 @@ async function login() {
     return;
   }
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
   if (error) {
     alert(error.message);
@@ -142,7 +142,7 @@ function mostrar() {
 
 // 🚪 LOGOUT
 async function logout() {
-  await supabase.auth.signOut();
+  await supabaseClient.auth.signOut();
   location.reload();
 }
 
@@ -156,7 +156,7 @@ function passInput() {
 }
 
 // 🔄 SESIÓN ACTIVA
-supabase.auth.getSession().then(({ data }) => {
+supabaseClient.auth.getSession().then(({ data }) => {
   if (data.session) mostrar();
 });
 </script>
