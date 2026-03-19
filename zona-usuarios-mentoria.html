@@ -41,6 +41,12 @@ body {
     <button onclick="login()" class="btn btn-primary btn-block mb-2">Entrar</button>
     <button onclick="register()" class="btn btn-secondary btn-block">Registrarse</button>
 
+<p style="margin-top:10px;">
+  <a href="javascript:void(0);" onclick="resetPassword()">
+    ¿Olvidaste tu contraseña?
+  </a>
+</p>
+
 </div>
 
 <div id="contenido" style="display:none;" class="card">
@@ -137,9 +143,6 @@ async function login() {
   }
 }
 
-<p style="margin-top:10px;">
-  <a href="#" onclick="resetPassword()">¿Olvidaste tu contraseña?</a>
-</p>
 
 // 👁 MOSTRAR CONTENIDO
 function mostrar() {
