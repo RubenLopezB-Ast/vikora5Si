@@ -137,6 +137,10 @@ async function login() {
   }
 }
 
+<p style="margin-top:10px;">
+  <a href="#" onclick="resetPassword()">¿Olvidaste tu contraseña?</a>
+</p>
+
 // 👁 MOSTRAR CONTENIDO
 function mostrar() {
   document.getElementById("auth").style.display = "none";
@@ -173,6 +177,23 @@ function togglePDFs() {
 function toggleRecursos() {
   const div = document.getElementById("recursos");
   div.style.display = div.style.display === "block" ? "none" : "block";
+}
+
+async function resetPassword() {
+  const email = emailInput();
+
+  if (!email) {
+    alert("Introduce tu email para recuperar la contraseña.");
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email);
+
+  if (error) {
+    alert(error.message);
+  } else {
+    alert("Te hemos enviado un email para restablecer tu contraseña.");
+  }
 }
 
 </script>
