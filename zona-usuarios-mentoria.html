@@ -24,6 +24,9 @@ body {
 
 </head>
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
+
+
 <body>
 
 <h1>Zona Usuarios Mentoría</h1>
@@ -159,6 +162,19 @@ function passInput() {
 supabaseClient.auth.getSession().then(({ data }) => {
   if (data.session) mostrar();
 });
+
+// 🔽 DESPLEGAR PDFs
+function togglePDFs() {
+  const div = document.getElementById("pdfs");
+  div.style.display = div.style.display === "block" ? "none" : "block";
+}
+
+// 🔽 DESPLEGAR RECURSOS
+function toggleRecursos() {
+  const div = document.getElementById("recursos");
+  div.style.display = div.style.display === "block" ? "none" : "block";
+}
+
 </script>
 
 </body>
