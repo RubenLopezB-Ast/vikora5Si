@@ -117,6 +117,18 @@ body {
         <i class="fas fa-file-pdf text-danger mr-2"></i> Guía A.D.
     </a>
 
+    <div id="pdfsExtra" style="display:none;">
+
+    <a href="PDFMentoria/1-Blockchain y ecosistema .pdf" download class="btn btn-warning btn-block mb-2">
+        ⭐ Documento 1
+    </a>
+
+    <a href="PDFMentoria/2-Exchanges y operativa básica .pdf" download class="btn btn-warning btn-block mb-2">
+        ⭐ Documento 2
+    </a>
+
+</div>
+
 
 
 </div>
@@ -261,7 +273,10 @@ function mostrar() {
 
   controlarTest();
 
-    if (usuarioGlobal.nivel_suscripcion === "B") {
+  document.getElementById("botonExtra").style.display = "none";
+
+
+    if (usuarioGlobal.nivel_suscripcion === "A") {
     document.getElementById("botonExtra").style.display = "block";
   }
 }
