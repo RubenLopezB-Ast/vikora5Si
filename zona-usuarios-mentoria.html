@@ -195,6 +195,9 @@ async function register() {
 
   const { data, error } = await supabaseClient.auth.signUp({ email, password });
 
+  console.log("SIGNUP DATA:", data);
+  console.log("SIGNUP ERROR:", error);
+
   if (error) {
     alert(error.message);
     return;
@@ -202,9 +205,31 @@ async function register() {
 
   const user = data.user || data.session?.user;
 
+  console.log("USER:", user);
+
   if (!user) {
-  alert("Revisa tu email para confirmar el registro.");
-  return;
+    alert("Usuario no disponible (posible confirmación email)");
+    return;
+  }
+
+  const { error: insertError } = await supabaseClient.from("usuarios").insert([
+    {
+      id: user.id,
+      email: email,
+      suscripcion_activa: false,
+      nivel_suscripcion: "A",
+      test_aprobado: false
+    }
+  ]);
+
+  console.log("INSERT ERROR:", insertError);
+
+  if (insertError) {
+    alert("Error insertando en tabla: " + insertError.message);
+    return;
+  }
+
+  alert("Registro completado correctamente");
 }
 
   // 🔹 insertar en tu tabla
@@ -218,7 +243,7 @@ async function register() {
     }
   ]);
 
-  alert("Registro completado. Pendiente de activación.");
+  alert("Registro completado. Pendiente de activación. Primer paso revise su e-mail y confírmelo");
 }
 
 // 🔐 LOGIN
