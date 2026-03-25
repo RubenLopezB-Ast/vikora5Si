@@ -55,6 +55,9 @@ body {
 
     <p>Bienvenido a la zona privada de mentoría.</p>
 
+    <p id="infoUsuario"></p>
+    <p id="avisoTest" style="color:red; font-weight:bold;"></p>
+
     <div class="mb-3">
     <button onclick="togglePDFs()" class="btn btn-primary btn-block">
         <i class="fas fa-file-download mr-2"></i> Descargar Material
@@ -68,6 +71,85 @@ body {
     </a>
 
 </div>
+
+<div id="pdfs" style="display:none;">
+
+    <a href="PDFMentoria/1-Blockchain y ecosistema .pdf" download class="btn btn-light btn-block mb-2">
+        <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 1
+    </a>
+
+</div>
+
+<div id="pdfs" style="display:none;">
+
+    <a href="PDFMentoria/2-Exchanges y operativa básica .pdf" download class="btn btn-light btn-block mb-2">
+        <i class="fas fa-file-pdf text-danger mr-2"></i> Documntación 2
+    </a>
+
+</div>
+
+<div id="pdfs" style="display:none;">
+
+    <a href="PDFMentoria/3-Wallets y Seguridad Cripto .pdf" download class="btn btn-light btn-block mb-2">
+        <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 3
+    </a>
+
+</div>
+
+<div id="pdfs" style="display:none;">
+
+    <a href="PDFMentoria/4-Mercado y movimientos históricos Volatilidad, oferta y demanda, ciclos, grandes hitos y cómo leer el contexto. - logo vikora5.pdf" download class="btn btn-light btn-block mb-2">
+        <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 4
+    </a>
+
+</div>
+
+<div id="pdfs" style="display:none;">
+
+    <a href="PDFMentoria/5-Psicología del inversor .pdf" download class="btn btn-light btn-block mb-2">
+        <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 5
+    </a>
+
+</div>
+
+<div id="pdfs" style="display:none;">
+
+    <a href="PDFMentoria/6-Análisis Técnico Básico .pdf" download class="btn btn-light btn-block mb-2">
+        <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 6
+    </a>
+
+</div>
+
+<div id="pdfs" style="display:none;">
+
+    <a href="PDFMentoria/7-Criptoactivos-en-Espana-Marco-.pdf" download class="btn btn-light btn-block mb-2">
+        <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 7
+    </a>
+
+</div>
+
+<div id="pdfs" style="display:none;">
+
+    <a href="PDFMentoria/guía mentoria activos digitales VIKORA5.pdf" download class="btn btn-light btn-block mb-2">
+        <i class="fas fa-file-pdf text-danger mr-2"></i> Guía A.D.
+    </a>
+
+</div>
+
+
+
+
+
+<div id="pdfs" style="display:none;">
+
+    <a href="PDFMentoria/Vikora_5_Corporate_bitcoins.pdf" download class="btn btn-light btn-block mb-2">
+        <i class="fas fa-file-pdf text-danger mr-2"></i> Presentacion
+    </a>
+
+</div>
+
+
+
 
 
     <div class="mb-3">
@@ -102,53 +184,98 @@ const supabaseClient = supabase.createClient(
   "https://ghbxbxdrjqvdtgpwcypp.supabase.co",
   "sb_publishable_C6qXiQ_JPYDjMpsQcHIAcw_qQwSh5U0"
 );
+let intervaloTest = null;
 
-// 📌 EMAILS AUTORIZADOS (EDITA ESTO)
-const allowedEmails = [
-  "rlb210983@gmail.com",
-  "binancoin7@gmail.com",
-  "cliente2@email.com"
-];
+
 
 // 🔐 REGISTRO
 async function register() {
   const email = emailInput();
   const password = passInput();
 
-  const { error } = await supabaseClient.auth.signUp({ email, password });
+  const { data, error } = await supabaseClient.auth.signUp({ email, password });
 
   if (error) {
     alert(error.message);
-  } else {
-    alert("Registro completado.\n\nTu cuenta está pendiente de validación por Vikora5.\n\nRecibirás acceso una vez autorizada.");
+    return;
   }
+
+  const user = data.user;
+
+  // 🔹 insertar en tu tabla
+  await supabaseClient.from("usuarios").insert([
+    {
+      id: user.id,
+      email: email,
+      suscripcion_activa: false,
+      nivel_suscripcion: "A",
+      test_aprobado: false
+    }
+  ]);
+
+  alert("Registro completado. Pendiente de activación.");
 }
 
 // 🔐 LOGIN
+let usuarioGlobal = null;
+
 async function login() {
   const email = emailInput();
   const password = passInput();
 
-  if (!allowedEmails.includes(email)) {
-    alert("Tu cuenta existe pero aún no está activada.\n\nContacta con Vikora5 para habilitar el acceso.");
-    return;
-  }
-
-  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
   if (error) {
     alert(error.message);
-  } else {
-    mostrar();
+    return;
   }
+
+  const user = data.user;
+
+  const { data: userData, error: dbError } = await supabaseClient
+    .from("usuarios")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (dbError || !userData) {
+    alert("Error al verificar usuario.");
+    return;
+  }
+
+  if (!userData.suscripcion_activa) {
+    alert("Acceso denegado. No tienes suscripción activa.");
+    return;
+  }
+
+  usuarioGlobal = userData;
+
+  mostrar();
 }
 
 
 // 👁 MOSTRAR CONTENIDO
+
+
+
 function mostrar() {
   document.getElementById("auth").style.display = "none";
   document.getElementById("contenido").style.display = "block";
+
+  document.getElementById("infoUsuario").innerHTML = `
+    <strong>Email:</strong> ${usuarioGlobal.email}<br>
+    <strong>Plan:</strong> ${usuarioGlobal.nivel_suscripcion}<br>
+    <strong>Estado:</strong> ${usuarioGlobal.suscripcion_activa ? "Activo" : "Inactivo"}<br>
+    <strong>Test:</strong> ${usuarioGlobal.test_aprobado ? "Aprobado" : "Pendiente"}<br>
+    <strong>Último test:</strong> ${usuarioGlobal.fecha_ultimo_test || "No realizado"}
+  `;
+
+  controlarTest();
 }
+
+
+
+
 
 // 🚪 LOGOUT
 async function logout() {
@@ -166,8 +293,21 @@ function passInput() {
 }
 
 // 🔄 SESIÓN ACTIVA
-supabaseClient.auth.getSession().then(({ data }) => {
-  if (data.session) mostrar();
+supabaseClient.auth.getSession().then(async ({ data }) => {
+  if (data.session) {
+    const user = data.session.user;
+
+    const { data: userData } = await supabaseClient
+      .from("usuarios")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    if (userData?.suscripcion_activa) {
+      usuarioGlobal = userData;
+      mostrar();
+    }
+  }
 });
 
 // 🔽 DESPLEGAR PDFs
@@ -197,6 +337,56 @@ async function resetPassword() {
   } else {
     alert("Te hemos enviado un email para restablecer tu contraseña.");
   }
+}
+
+function controlarTest() {
+  if (!usuarioGlobal) return;
+
+  const aviso = document.getElementById("avisoTest");
+
+  if (usuarioGlobal.test_aprobado) {
+    aviso.innerHTML = "";
+    return;
+  }
+
+  const hoy = new Date();
+
+  // Si nunca ha hecho test → usamos hoy como referencia
+  const fechaBase = usuarioGlobal.fecha_ultimo_test 
+    ? new Date(usuarioGlobal.fecha_ultimo_test)
+    : hoy;
+
+  const limite = new Date(fechaBase);
+  limite.setDate(limite.getDate() + 3);
+
+  function actualizarContador() {
+    const ahora = new Date();
+    const diferencia = limite - ahora;
+
+    if (diferencia <= 0) {
+  aviso.innerHTML = "⛔ Tu suscripción está bloqueada hasta completar el test";
+
+  bloquearContenido(); 
+
+  return;
+}
+
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+
+    aviso.innerHTML = `⚠ Debes realizar el test. Tu acceso se bloqueará en ${dias}d ${horas}h ${minutos}m`;
+  }
+
+  actualizarContador();
+  if (intervaloTest) clearInterval(intervaloTest);
+
+  intervaloTest = setInterval(actualizarContador, 60000);
+}
+
+function bloquearContenido() {
+  document.getElementById("pdfs").innerHTML = "🔒 Contenido bloqueado";
+  document.getElementById("recursos").innerHTML = "🔒 Contenido bloqueado";
 }
 
 </script>
