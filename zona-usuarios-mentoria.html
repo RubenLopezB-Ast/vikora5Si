@@ -318,8 +318,14 @@ supabaseClient.auth.getSession().then(async ({ data }) => {
 
 // 🔽 DESPLEGAR PDFs
 function togglePDFs() {
-  const div = document.getElementById("pdfs");
-  div.style.display = div.style.display === "block" ? "none" : "block";
+  const normal = document.getElementById("pdfs");
+  const extra = document.getElementById("pdfsExtra");
+
+  // Oculta premium
+  extra.style.display = "none";
+
+  // Muestra/oculta normal
+  normal.style.display = normal.style.display === "block" ? "none" : "block";
 }
 
 // 🔽 DESPLEGAR RECURSOS
@@ -393,6 +399,17 @@ function controlarTest() {
 function bloquearContenido() {
   document.getElementById("pdfs").innerHTML = "🔒 Contenido bloqueado";
   document.getElementById("recursos").innerHTML = "🔒 Contenido bloqueado";
+}
+
+function togglePDFsExtra() {
+  const extra = document.getElementById("pdfsExtra");
+  const normal = document.getElementById("pdfs");
+
+  // Oculta los normales
+  normal.style.display = "none";
+
+  // Muestra/oculta premium
+  extra.style.display = extra.style.display === "block" ? "none" : "block";
 }
 
 </script>
