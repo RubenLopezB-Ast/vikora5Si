@@ -260,6 +260,10 @@ function mostrar() {
   `;
 
   controlarTest();
+
+    if (usuarioGlobal.nivel_suscripcion === "B") {
+    document.getElementById("botonExtra").style.display = "block";
+  }
 }
 
 
