@@ -69,88 +69,39 @@ body {
     <a href="PDFMentoria/Vikora_5_Corporate_bitcoins.pdf" download class="btn btn-light btn-block mb-2">
         <i class="fas fa-file-pdf text-danger mr-2"></i> Presentacion
     </a>
-
-</div>
-
-<div id="pdfs" style="display:none;">
-
     <a href="PDFMentoria/1-Blockchain y ecosistema .pdf" download class="btn btn-light btn-block mb-2">
         <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 1
     </a>
-
-</div>
-
-<div id="pdfs" style="display:none;">
-
     <a href="PDFMentoria/2-Exchanges y operativa básica .pdf" download class="btn btn-light btn-block mb-2">
         <i class="fas fa-file-pdf text-danger mr-2"></i> Documntación 2
     </a>
-
-</div>
-
-<div id="pdfs" style="display:none;">
-
-    <a href="PDFMentoria/3-Wallets y Seguridad Cripto .pdf" download class="btn btn-light btn-block mb-2">
+     <a href="PDFMentoria/3-Wallets y Seguridad Cripto .pdf" download class="btn btn-light btn-block mb-2">
         <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 3
     </a>
 
-</div>
-
-<div id="pdfs" style="display:none;">
-
-    <a href="PDFMentoria/4-Mercado y movimientos históricos Volatilidad, oferta y demanda, ciclos, grandes hitos y cómo leer el contexto. - logo vikora5.pdf" download class="btn btn-light btn-block mb-2">
+     <a href="PDFMentoria/4-Mercado y movimientos históricos Volatilidad, oferta y demanda, ciclos, grandes hitos y cómo leer el contexto. - logo vikora5.pdf" download class="btn btn-light btn-block mb-2">
         <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 4
     </a>
-
-</div>
-
-<div id="pdfs" style="display:none;">
 
     <a href="PDFMentoria/5-Psicología del inversor .pdf" download class="btn btn-light btn-block mb-2">
         <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 5
     </a>
 
-</div>
-
-<div id="pdfs" style="display:none;">
-
     <a href="PDFMentoria/6-Análisis Técnico Básico .pdf" download class="btn btn-light btn-block mb-2">
         <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 6
     </a>
 
-</div>
-
-<div id="pdfs" style="display:none;">
-
-    <a href="PDFMentoria/7-Criptoactivos-en-Espana-Marco-.pdf" download class="btn btn-light btn-block mb-2">
+      <a href="PDFMentoria/7-Criptoactivos-en-Espana-Marco-.pdf" download class="btn btn-light btn-block mb-2">
         <i class="fas fa-file-pdf text-danger mr-2"></i> Documentación 7
     </a>
-
-</div>
-
-<div id="pdfs" style="display:none;">
 
     <a href="PDFMentoria/guía mentoria activos digitales VIKORA5.pdf" download class="btn btn-light btn-block mb-2">
         <i class="fas fa-file-pdf text-danger mr-2"></i> Guía A.D.
     </a>
 
-</div>
 
-
-
-
-
-<div id="pdfs" style="display:none;">
-
-    <a href="PDFMentoria/Vikora_5_Corporate_bitcoins.pdf" download class="btn btn-light btn-block mb-2">
-        <i class="fas fa-file-pdf text-danger mr-2"></i> Presentacion
-    </a>
 
 </div>
-
-
-
-
 
     <div class="mb-3">
     <button onclick="toggleRecursos()" class="btn btn-primary btn-block">
@@ -234,18 +185,7 @@ async function register() {
 }
 
   // 🔹 insertar en tu tabla
-  await supabaseClient.from("usuarios").insert([
-    {
-      id: user.id,
-      email: email,
-      suscripcion_activa: false,
-      nivel_suscripcion: "A",
-      test_aprobado: false
-    }
-  ]);
-
-  alert("Registro completado. Pendiente de activación. Primer paso revise su e-mail y confírmelo");
-}
+ 
 
 // 🔐 LOGIN
 let usuarioGlobal = null;
