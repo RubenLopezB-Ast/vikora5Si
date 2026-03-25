@@ -200,7 +200,12 @@ async function register() {
     return;
   }
 
-  const user = data.user;
+  const user = data.user || data.session?.user;
+
+  if (!user) {
+  alert("Revisa tu email para confirmar el registro.");
+  return;
+}
 
   // 🔹 insertar en tu tabla
   await supabaseClient.from("usuarios").insert([
