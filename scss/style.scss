@@ -251,15 +251,17 @@ h6,
 }
 
 #imagenPlan {
-    position: fixed;
+    position: fixed;       /* 🔥 clave: no afecta al layout */
     top: 20px;
     right: 20px;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%; /* 🔥 hace la imagen redonda */
-    object-fit: cover;
-    border: 3px solid white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    display: none; /* oculta hasta login */
+    width: 60px;           /* tamaño controlado */
+    height: 60px;
+    border-radius: 50%;    /* redonda */
+    object-fit: cover;     /* evita deformación */
+    
+    border: 2px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+    display: none;         /* sigue oculta hasta login */
     z-index: 999;
 }

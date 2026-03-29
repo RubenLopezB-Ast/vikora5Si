@@ -363,10 +363,12 @@ function mostrar() {
   const img = document.getElementById("imagenPlan");
 
   if (usuarioGlobal.nivel_suscripcion === "A") {
-    img.src = "img/A.png";  // 👈 cambia por tu ruta
-  } else if (usuarioGlobal.nivel_suscripcion === "B") {
-    img.src = "img/B.png";  // 👈 cambia por tu ruta
-  }
+  img.src = "img/A.png";
+  img.style.border = "2px solid gold";   // 👑 premium
+} else if (usuarioGlobal.nivel_suscripcion === "B") {
+  img.src = "img/B.png";
+  img.style.border = "2px solid #ccc";   // normal
+}
 
   img.style.display = "block";
 }
