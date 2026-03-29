@@ -196,7 +196,37 @@ const supabaseClient = supabase.createClient(
 );
 let intervaloTest = null;
 
+function traducirError(error) {
+  if (!error || !error.message) return "Error desconocido";
 
+  const msg = error.message;
+
+  if (msg.includes("Invalid login credentials")) {
+    return "Email o contraseña incorrectos";
+  }
+
+  if (msg.includes("User already registered")) {
+    return "Este email ya está registrado";
+  }
+
+  if (msg.includes("Password should be")) {
+    return "La contraseña debe tener al menos 6 caracteres";
+  }
+
+  if (msg.includes("Email not confirmed")) {
+    return "Debes confirmar tu email antes de iniciar sesión";
+  }
+
+  if (msg.includes("User not found")) {
+    return "Usuario no encontrado";
+  }
+
+  if (msg.includes("Network")) {
+    return "Error de conexión. Inténtalo de nuevo";
+  }
+
+  return msg; // fallback por si no está contemplado
+}
 
 // 🔐 REGISTRO
 async function register() {
@@ -210,7 +240,7 @@ async function register() {
   console.log("SIGNUP ERROR:", error);
 
   if (error) {
-    alert(error.message);
+    alert(traducirError(error));;
     return;
   }
 
