@@ -74,7 +74,7 @@ body {
     <p>Bienvenido a la zona privada de mentoría.</p>
 
     <p id="infoUsuario"></p>
-    <p id="avisoTest" style="color:red; font-weight:bold;"></p>
+    <p id="avisoTest" style="font-weight:bold;"></p>
 
    <div class="mb-3">
     <button onclick="togglePDFs()" class="btn btn-primary btn-block">
@@ -497,6 +497,7 @@ function controlarTest() {
     // 🔒 BLOQUEADO
     if (diferencia <= 0) {
       aviso.innerHTML = `⛔ Acceso bloqueado. Test expirado el ${fechaValidez}`;
+      aviso.style.color = "red";
       bloquearContenido();
       return;
     }
@@ -508,8 +509,8 @@ function controlarTest() {
     // 🔥 CASO 1: NO ha hecho test → siempre visible
     if (!usuarioGlobal.test_aprobado) {
       aviso.innerHTML = `⚠ Debes realizar el test. Bloqueo en ${dias}d ${horas}h ${minutos}m`;
+      aviso.style.color = "orange";
       return;
-      aviso.style.color = "red";
     }
 
     // 🔥 CASO 2: test hecho → solo últimos 3 días
