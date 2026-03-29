@@ -276,7 +276,7 @@ async function register() {
       id: user.id,
       email: email,
       suscripcion_activa: false,
-      nivel_suscripcion: "A",
+      nivel_suscripcion: "B",
       test_aprobado: false
     }
   ]);
@@ -323,7 +323,7 @@ if (!userData) {
       id: user.id,
       email: user.email,
       suscripcion_activa: true,
-      nivel_suscripcion: "A",
+      nivel_suscripcion: "B",
       test_aprobado: false
     }
   ]);
@@ -467,62 +467,70 @@ function controlarTest() {
   if (!usuarioGlobal) return;
 
   const aviso = document.getElementById("avisoTest");
-
-  if (usuarioGlobal.test_aprobado) {
-    aviso.innerHTML = "";
-    return;
-  }
-
-  const hoy = new Date();
-
-  // Si nunca ha hecho test → usamos hoy como referencia
-  const fechaBase = usuarioGlobal.fecha_ultimo_test 
-    ? new Date(usuarioGlobal.fecha_ultimo_test)
-    : hoy;
-
-  // 🔥 fecha límite = último test + 3 meses
-const limite = new Date(fechaBase);
-limite.setMonth(limite.getMonth() + 3);
-
-// 🔥 aviso empieza 3 días antes
-const avisoInicio = new Date(limite);
-avisoInicio.setDate(avisoInicio.getDate() - 3);
-
-  function actualizarContador() {
   const ahora = new Date();
 
-  // 🔒 ya bloqueado
-  if (ahora >= limite) {
-    aviso.innerHTML = "⛔ Tu suscripción está bloqueada hasta completar el test";
-    bloquearContenido();
-    return;
+  // 📅 Si nunca ha hecho test → 3 días desde hoy
+  let fechaBase = usuarioGlobal.fecha_ultimo_test 
+    ? new Date(usuarioGlobal.fecha_ultimo_test)
+    : ahora;
+
+  let limite;
+
+  // 🔥 CASO 1: NO ha hecho test → 3 días
+  if (!usuarioGlobal.test_aprobado) {
+    limite = new Date(fechaBase);
+    limite.setDate(limite.getDate() + 3);
+  } 
+  // 🔥 CASO 2: Sí ha hecho test → 3 meses
+  else {
+    limite = new Date(fechaBase);
+    limite.setMonth(limite.getMonth() + 3);
   }
 
-  // ⚠️ aún no toca aviso
-  if (ahora < avisoInicio) {
-    aviso.innerHTML = "";
-    return;
+  // 🔥 Mostrar fecha de validez
+  const fechaValidez = limite.toLocaleDateString();
+
+  function actualizarContador() {
+    const ahora = new Date();
+    const diferencia = limite - ahora;
+
+    // 🔒 BLOQUEADO
+    if (diferencia <= 0) {
+      aviso.innerHTML = `⛔ Acceso bloqueado. Test expirado el ${fechaValidez}`;
+      bloquearContenido();
+      return;
+    }
+
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+
+    // 🔥 CASO 1: NO ha hecho test → siempre visible
+    if (!usuarioGlobal.test_aprobado) {
+      aviso.innerHTML = `⚠ Debes realizar el test. Bloqueo en ${dias}d ${horas}h ${minutos}m`;
+      return;
+    }
+
+    // 🔥 CASO 2: test hecho → solo últimos 3 días
+    if (dias <= 3) {
+      aviso.innerHTML = `⚠ Tu test caduca en ${dias}d ${horas}h ${minutos}m (hasta ${fechaValidez})`;
+    } else {
+      aviso.innerHTML = `✔ Test válido hasta ${fechaValidez}`;
+    }
   }
-
-  // ⏳ cuenta atrás (últimos 3 días)
-  const diferencia = limite - ahora;
-
-  const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-  const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
-  const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
-
-  aviso.innerHTML = `⚠ Debes realizar el test. Tu acceso se bloqueará en ${dias}d ${horas}h ${minutos}m`;
-}
 
   actualizarContador();
-  if (intervaloTest) clearInterval(intervaloTest);
 
+  if (intervaloTest) clearInterval(intervaloTest);
   intervaloTest = setInterval(actualizarContador, 60000);
 }
+
 
 function bloquearContenido() {
   document.getElementById("pdfs").innerHTML = "🔒 Contenido bloqueado";
   document.getElementById("recursos").innerHTML = "🔒 Contenido bloqueado";
+
+  document.getElementById("botonExtra").style.display = "none";
 }
 
 function togglePDFsExtra() {
