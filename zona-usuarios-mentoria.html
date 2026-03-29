@@ -300,19 +300,38 @@ async function login() {
     .eq("id", user.id)
     .single();
 
-  if (dbError || !userData) {
-    alert("Error al verificar usuario.");
+  // 🔥 SI NO EXISTE EN TU TABLA → LO CREAMOS
+if (!userData) {
+  const { error: insertError } = await supabaseClient.from("usuarios").insert([
+    {
+      id: user.id,
+      email: user.email,
+      suscripcion_activa: true,
+      nivel_suscripcion: "A",
+      test_aprobado: false
+    }
+  ]);
+
+  if (insertError) {
+    alert("Error creando usuario: " + insertError.message);
     return;
   }
 
-  if (dbError || !userData) {
-  alert("Acceso denegado o suscripción caducada (Live Exam Caducado o no relaizado)");
+  // volvemos a obtener el usuario
+  const { data: newUser } = await supabaseClient
+    .from("usuarios")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  usuarioGlobal = newUser;
+  mostrar();
   return;
 }
 
-  usuarioGlobal = userData;
-
-  mostrar();
+// 🔥 SI EXISTE → ENTRAMOS NORMAL
+usuarioGlobal = userData;
+mostrar();
 }
 
 
@@ -499,9 +518,7 @@ function togglePDFsExtra() {
   extra.style.display = extra.style.display === "block" ? "none" : "block";
 }
 
-if (msg.includes("Invalid email")) {
-  return "Email no válido";
-}
+
 
 </script>
 
