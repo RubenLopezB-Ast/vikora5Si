@@ -20,6 +20,22 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
+#imagenPlan {
+    position: fixed;       /* 🔥 clave: no afecta al layout */
+    top: 20px;
+    right: 20px;
+    width: 60px;           /* tamaño controlado */
+    height: 60px;
+    border-radius: 50%;    /* redonda */
+    object-fit: cover;     /* evita deformación */
+    
+    border: 2px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+    display: none;         /* sigue oculta hasta login */
+    z-index: 999;
+}
 </style>
 
 </head>
