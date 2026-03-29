@@ -497,7 +497,7 @@ function controlarTest() {
     // 🔒 BLOQUEADO
     if (diferencia <= 0) {
       aviso.innerHTML = `⛔ Acceso bloqueado. Test expirado el ${fechaValidez}`;
-      aviso.style.color = "red";
+      aviso.style.setProperty("color", "red", "important");
       bloquearContenido();
       return;
     }
@@ -509,7 +509,7 @@ function controlarTest() {
     // 🔥 CASO 1: NO ha hecho test → siempre visible
     if (!usuarioGlobal.test_aprobado) {
       aviso.innerHTML = `⚠ Debes realizar el test. Bloqueo en ${dias}d ${horas}h ${minutos}m`;
-      aviso.style.color = "orange";
+      aviso.style.setProperty("color", "orange", "important");
       return;
     }
 
@@ -519,7 +519,7 @@ function controlarTest() {
       aviso.style.color = "orange";
     } else {
       aviso.innerHTML = `✔ Test válido hasta ${fechaValidez}`;
-      aviso.style.color = "green";
+      aviso.style.setProperty("color", "green", "important");
     }
   }
 
