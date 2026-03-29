@@ -509,13 +509,16 @@ function controlarTest() {
     if (!usuarioGlobal.test_aprobado) {
       aviso.innerHTML = `⚠ Debes realizar el test. Bloqueo en ${dias}d ${horas}h ${minutos}m`;
       return;
+      aviso.style.color = "red";
     }
 
     // 🔥 CASO 2: test hecho → solo últimos 3 días
     if (dias <= 3) {
       aviso.innerHTML = `⚠ Tu test caduca en ${dias}d ${horas}h ${minutos}m (hasta ${fechaValidez})`;
+      aviso.style.color = "orange";
     } else {
       aviso.innerHTML = `✔ Test válido hasta ${fechaValidez}`;
+      aviso.style.color = "green";
     }
   }
 
