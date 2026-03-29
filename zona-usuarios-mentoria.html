@@ -30,7 +30,7 @@ body {
 <body>
 
 <h1>Zona Usuarios Mentoría</h1>
-
+<img id="imagenPlan" src="" alt="Plan usuario">
 <div id="auth" class="card">
 
     <h3>Acceso</h3>
@@ -286,7 +286,7 @@ async function login() {
   const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
   if (error) {
-    alert(error.message);
+    alert(traducirError(error));
     return;
   }
 
@@ -303,10 +303,10 @@ async function login() {
     return;
   }
 
-  if (!userData.suscripcion_activa) {
-    alert("Acceso denegado. No tienes suscripción activa.");
-    return;
-  }
+  if (dbError || !userData) {
+  alert("Acceso denegado o suscripción caducada (Live Exam Caducado o no relaizado)");
+  return;
+}
 
   usuarioGlobal = userData;
 
@@ -334,10 +334,20 @@ function mostrar() {
 
   document.getElementById("botonExtra").style.display = "none";
 
-
-    if (usuarioGlobal.nivel_suscripcion === "A") {
+  if (usuarioGlobal.nivel_suscripcion === "A") {
     document.getElementById("botonExtra").style.display = "block";
   }
+
+  // 🔥 NUEVO: imagen según plan
+  const img = document.getElementById("imagenPlan");
+
+  if (usuarioGlobal.nivel_suscripcion === "A") {
+    img.src = "img/A.png";  // 👈 cambia por tu ruta
+  } else if (usuarioGlobal.nivel_suscripcion === "B") {
+    img.src = "img/B.png";  // 👈 cambia por tu ruta
+  }
+
+  img.style.display = "block";
 }
 
 
@@ -408,7 +418,7 @@ async function resetPassword() {
 });
 
   if (error) {
-    alert(error.message);
+    alert(traducirError(error));
   } else {
     alert("Te hemos enviado un email para restablecer tu contraseña.");
   }
@@ -431,27 +441,39 @@ function controlarTest() {
     ? new Date(usuarioGlobal.fecha_ultimo_test)
     : hoy;
 
-  const limite = new Date(fechaBase);
-  limite.setDate(limite.getDate() + 3);
+  // 🔥 fecha límite = último test + 3 meses
+const limite = new Date(fechaBase);
+limite.setMonth(limite.getMonth() + 3);
+
+// 🔥 aviso empieza 3 días antes
+const avisoInicio = new Date(limite);
+avisoInicio.setDate(avisoInicio.getDate() - 3);
 
   function actualizarContador() {
-    const ahora = new Date();
-    const diferencia = limite - ahora;
+  const ahora = new Date();
 
-    if (diferencia <= 0) {
-  aviso.innerHTML = "⛔ Tu suscripción está bloqueada hasta completar el test";
-
-  bloquearContenido(); 
-
-  return;
-}
-
-    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
-    const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
-
-    aviso.innerHTML = `⚠ Debes realizar el test. Tu acceso se bloqueará en ${dias}d ${horas}h ${minutos}m`;
+  // 🔒 ya bloqueado
+  if (ahora >= limite) {
+    aviso.innerHTML = "⛔ Tu suscripción está bloqueada hasta completar el test";
+    bloquearContenido();
+    return;
   }
+
+  // ⚠️ aún no toca aviso
+  if (ahora < avisoInicio) {
+    aviso.innerHTML = "";
+    return;
+  }
+
+  // ⏳ cuenta atrás (últimos 3 días)
+  const diferencia = limite - ahora;
+
+  const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+
+  aviso.innerHTML = `⚠ Debes realizar el test. Tu acceso se bloqueará en ${dias}d ${horas}h ${minutos}m`;
+}
 
   actualizarContador();
   if (intervaloTest) clearInterval(intervaloTest);
@@ -473,6 +495,10 @@ function togglePDFsExtra() {
 
   // Muestra/oculta premium
   extra.style.display = extra.style.display === "block" ? "none" : "block";
+}
+
+if (msg.includes("Invalid email")) {
+  return "Email no válido";
 }
 
 </script>

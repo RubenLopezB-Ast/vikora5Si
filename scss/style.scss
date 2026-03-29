@@ -250,3 +250,16 @@ h6,
     list-style-type: none;
 }
 
+#imagenPlan {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%; /* 🔥 hace la imagen redonda */
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    display: none; /* oculta hasta login */
+    z-index: 999;
+}
