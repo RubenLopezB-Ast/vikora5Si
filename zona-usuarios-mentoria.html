@@ -403,7 +403,9 @@ async function resetPassword() {
     return;
   }
 
-  const { error } = await supabaseClient.auth.resetPasswordForEmail(email);
+ const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+  redirectTo: "https://vikora5.com/reset-password.html"
+});
 
   if (error) {
     alert(error.message);
