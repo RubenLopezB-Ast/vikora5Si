@@ -9734,3 +9734,61 @@ h6,
 #imagenPlan {
     display: none;
 }
+
+@keyframes aparecer {
+  from { transform: scale(0.8); opacity:0; }
+  to { transform: scale(1); opacity:1; }
+}
+
+@media (max-width: 600px) {
+
+  body {
+    padding: 20px;
+  }
+
+  .card {
+    width: 100%;
+    padding: 20px;
+    border-radius: 15px;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  #mensajeBox {
+    padding:20px;
+  }
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+button {
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+body {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+}
