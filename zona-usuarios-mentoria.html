@@ -320,17 +320,20 @@ async function login() {
     .eq("id", user.id)
     .single();
 
-  // 🔥 SI NO EXISTE EN TU TABLA → LO CREAMOS
-if (!userData) {
-  const { error: insertError } = await supabaseClient.from("usuarios").insert([
-    {
-      id: user.id,
-      email: user.email,
-      suscripcion_activa: true,
-      nivel_suscripcion: "B",
-      test_aprobado: false
-    }
-  ]);
+    if (dbError || !userData) {
+  alert("Cuenta pendiente de validación.\nEste proceso puede tardar hasta 48h.\nSolo usuarios autorizados pueden acceder.");
+  await supabaseClient.auth.signOut();
+  return;
+}
+
+// 🔒 BLOQUEO REAL
+if (!userData.suscripcion_activa) {
+  alert("Cuenta pendiente de validación.\nEste proceso puede tardar hasta 48h.\nSolo usuarios autorizados pueden acceder.");
+  await supabaseClient.auth.signOut();
+  return;
+}
+
+
 
   if (insertError) {
     alert("Error creando usuario: " + insertError.message);
