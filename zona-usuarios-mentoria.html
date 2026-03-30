@@ -352,20 +352,19 @@ function mostrar() {
   document.getElementById("contenido").style.display = "block";
 
   document.getElementById("infoUsuario").innerHTML = `
-    <strong>Email:</strong> ${usuarioGlobal.email}<br>
-    <strong>Plan:</strong> ${usuarioGlobal.nivel_suscripcion}<br>
-    <strong>Estado:</strong> ${usuarioGlobal.suscripcion_activa ? "Activo" : "Inactivo"}<br>
-    <strong>Test:</strong> ${usuarioGlobal.test_aprobado ? "Aprobado" : "Pendiente"}<br>
-    <strong>Último test:</strong> ${usuarioGlobal.fecha_ultimo_test || "No realizado"}
+    <div style="text-align:left; line-height:1.6;">
+      <strong>Email:</strong> ${usuarioGlobal.email || "—"}<br>
+      <strong>Plan:</strong> ${usuarioGlobal.nivel_suscripcion || "—"}<br>
+      <strong>Estado:</strong> ${usuarioGlobal.suscripcion_activa ? "Activo" : "Inactivo"}<br>
+      <strong>Test:</strong> ${usuarioGlobal.test_aprobado ? "Aprobado" : "Pendiente"}<br>
+      <strong>Último test:</strong> ${
+  usuarioGlobal.fecha_ultimo_test 
+    ? new Date(usuarioGlobal.fecha_ultimo_test).toLocaleDateString()
+    : "No realizado"
+}
+    </div>
   `;
-
-  controlarTest();
-
-  document.getElementById("botonExtra").style.display = "none";
-
-  if (usuarioGlobal.nivel_suscripcion === "A") {
-    document.getElementById("botonExtra").style.display = "block";
-  }
+}
 
   // 🔥 NUEVO: imagen según plan
   const img = document.getElementById("imagenPlan");
