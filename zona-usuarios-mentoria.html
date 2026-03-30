@@ -266,7 +266,7 @@ async function register() {
     return;
   }
 
-  const user = data.user || data.session?.user;
+  const user = data.user;
 
   console.log("USER:", user);
 
@@ -298,9 +298,6 @@ async function register() {
   // 🔹 insertar en tu tabla
  
 
-// 🔐 LOGIN
-let usuarioGlobal = null;
-
 async function login() {
   const email = emailInput();
   const password = passInput();
@@ -320,28 +317,23 @@ async function login() {
     .eq("id", user.id)
     .single();
 
-    if (dbError || !userData) {
-  alert("Cuenta pendiente de validación.\nEste proceso puede tardar hasta 48h.\nSolo usuarios autorizados pueden acceder.");
-  await supabaseClient.auth.signOut();
-  return;
+  if (dbError || !userData) {
+    alert("Cuenta pendiente de validación.\nEste proceso puede tardar hasta 48h.");
+    await supabaseClient.auth.signOut();
+    return;
+  }
+
+  if (!userData.suscripcion_activa) {
+    alert("Cuenta pendiente de validación.\nEste proceso puede tardar hasta 48h.");
+    await supabaseClient.auth.signOut();
+    return;
+  }
+
+  usuarioGlobal = userData;
+  mostrar();
 }
 
 // 🔒 BLOQUEO REAL
-if (!userData.suscripcion_activa) {
-  alert("Cuenta pendiente de validación.\nEste proceso puede tardar hasta 48h.\nSolo usuarios autorizados pueden acceder.");
-  await supabaseClient.auth.signOut();
-  return;
-}
-
-
-
-
-
-// 🔥 SI EXISTE → ENTRAMOS NORMAL
-usuarioGlobal = userData;
-mostrar();
-}
-
 
 // 👁 MOSTRAR CONTENIDO
 
@@ -411,10 +403,13 @@ supabaseClient.auth.getSession().then(async ({ data }) => {
       .eq("id", user.id)
       .single();
 
-    if (userData?.suscripcion_activa) {
-      usuarioGlobal = userData;
-      mostrar();
+    if (!userData || !userData.suscripcion_activa) {
+      await supabaseClient.auth.signOut();
+      return;
     }
+
+    usuarioGlobal = userData;
+    mostrar();
   }
 });
 
