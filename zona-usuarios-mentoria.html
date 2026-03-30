@@ -495,9 +495,10 @@ function controlarTest() {
   if (!usuarioGlobal) return;
 
   const aviso = document.getElementById("avisoTest");
+  if (!aviso) return;
+
   const ahora = new Date();
 
-  // 📅 Si nunca ha hecho test → 3 días desde hoy
   let fechaBase = usuarioGlobal.fecha_ultimo_test 
     ? new Date(usuarioGlobal.fecha_ultimo_test)
     : ahora;
@@ -515,7 +516,6 @@ function controlarTest() {
     limite.setMonth(limite.getMonth() + 3);
   }
 
-  // 🔥 Mostrar fecha de validez
   const fechaValidez = limite.toLocaleDateString();
 
   function actualizarContador() {
@@ -534,17 +534,17 @@ function controlarTest() {
     const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
     const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
 
-    // 🔥 CASO 1: NO ha hecho test → siempre visible
+    // 🔥 NO ha hecho test
     if (!usuarioGlobal.test_aprobado) {
       aviso.innerHTML = `⚠ Debes realizar el test. Bloqueo en ${dias}d ${horas}h ${minutos}m`;
       aviso.style.setProperty("color", "orange", "important");
       return;
     }
 
-    // 🔥 CASO 2: test hecho → solo últimos 3 días
+    // 🔥 Test hecho
     if (dias <= 3) {
       aviso.innerHTML = `⚠ Tu test caduca en ${dias}d ${horas}h ${minutos}m (hasta ${fechaValidez})`;
-      aviso.style.color = "orange";
+      aviso.style.setProperty("color", "orange", "important");
     } else {
       aviso.innerHTML = `✔ Test válido hasta ${fechaValidez}`;
       aviso.style.setProperty("color", "green", "important");
