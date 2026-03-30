@@ -358,28 +358,26 @@ function mostrar() {
       <strong>Estado:</strong> ${usuarioGlobal.suscripcion_activa ? "Activo" : "Inactivo"}<br>
       <strong>Test:</strong> ${usuarioGlobal.test_aprobado ? "Aprobado" : "Pendiente"}<br>
       <strong>Último test:</strong> ${
-  usuarioGlobal.fecha_ultimo_test 
-    ? new Date(usuarioGlobal.fecha_ultimo_test).toLocaleDateString()
-    : "No realizado"
-}
+        usuarioGlobal.fecha_ultimo_test 
+          ? new Date(usuarioGlobal.fecha_ultimo_test).toLocaleDateString()
+          : "No realizado"
+      }
     </div>
   `;
-}
 
-  // 🔥 NUEVO: imagen según plan
+  // ✅ AQUÍ DENTRO
   const img = document.getElementById("imagenPlan");
 
   if (usuarioGlobal.nivel_suscripcion === "A") {
-  img.src = "img/A.png";
-  img.style.border = "2px solid gold";   // 👑 premium
-} else if (usuarioGlobal.nivel_suscripcion === "B") {
-  img.src = "img/B.png";
-  img.style.border = "2px solid #ccc";   // normal
-}
+    img.src = "img/A.png";
+    img.style.border = "2px solid gold";
+  } else {
+    img.src = "img/B.png";
+    img.style.border = "2px solid #ccc";
+  }
 
   img.style.display = "block";
 }
-
 
 
 
@@ -408,7 +406,7 @@ supabaseClient.auth.getSession().then(async ({ data }) => {
       .from("usuarios")
       .select("*")
       .eq("id", user.id)
-      .maysingle();
+      .maybeSingle();
 
     if (!userData || !userData.suscripcion_activa) {
       await supabaseClient.auth.signOut();
