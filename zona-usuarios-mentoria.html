@@ -347,82 +347,6 @@ async function login() {
 
 
 
-function mostrar() {
-  document.getElementById("auth").style.display = "none";
-  document.getElementById("contenido").style.display = "block";
-
-  document.getElementById("infoUsuario").innerHTML = `
-    <div style="text-align:left; line-height:1.6;">
-      <strong>Email:</strong> ${usuarioGlobal.email || "—"}<br>
-      <strong>Plan:</strong> ${usuarioGlobal.nivel_suscripcion || "—"}<br>
-      <strong>Estado:</strong> ${usuarioGlobal.suscripcion_activa ? "Activo" : "Inactivo"}<br>
-      <strong>Test:</strong> ${usuarioGlobal.test_aprobado ? "Aprobado" : "Pendiente"}<br>
-      <strong>Último test:</strong> ${
-        usuarioGlobal.fecha_ultimo_test 
-          ? new Date(usuarioGlobal.fecha_ultimo_test).toLocaleDateString()
-          : "No realizado"
-      }
-    </div>
-  `;
-
-  // ✅ AQUÍ DENTRO
-  const img = document.getElementById("imagenPlan");
-
-  if (usuarioGlobal.nivel_suscripcion === "A") {
-    img.src = "img/A.png";
-    img.style.border = "2px solid gold";
-  } else {
-    img.src = "img/B.png";
-    img.style.border = "2px solid #ccc";
-  }
-
-  img.style.display = "block";
-
-  function mostrar() {
-  document.getElementById("auth").style.display = "none";
-  document.getElementById("contenido").style.display = "block";
-
-  document.getElementById("infoUsuario").innerHTML = `
-    <div style="text-align:left; line-height:1.6;">
-      <strong>Email:</strong> ${usuarioGlobal.email || "—"}<br>
-      <strong>Plan:</strong> ${usuarioGlobal.nivel_suscripcion || "—"}<br>
-      <strong>Estado:</strong> ${usuarioGlobal.suscripcion_activa ? "Activo" : "Inactivo"}<br>
-      <strong>Test:</strong> ${usuarioGlobal.test_aprobado ? "Aprobado" : "Pendiente"}<br>
-      <strong>Último test:</strong> ${
-        usuarioGlobal.fecha_ultimo_test 
-          ? new Date(usuarioGlobal.fecha_ultimo_test).toLocaleDateString()
-          : "No realizado"
-      }
-    </div>
-  `;
-
-  // 🔥 ESTA LÍNEA ES LA CLAVE
-  controlarTest();
-
-  const img = document.getElementById("imagenPlan");
-
-  if (usuarioGlobal.nivel_suscripcion === "A") {
-    img.src = "img/A.png";
-    img.style.border = "2px solid gold";
-  } else {
-    img.src = "img/B.png";
-    img.style.border = "2px solid #ccc";
-  }
-
-  img.style.display = "block";
-}
-
-console.log("CONTROLAR TEST EJECUTADO", usuarioGlobal);
-}
-
-
-
-
-// 🚪 LOGOUT
-async function logout() {
-  await supabaseClient.auth.signOut();
-  location.reload();
-}
 
 // 📥 INPUTS
 function emailInput() {
@@ -489,6 +413,41 @@ async function resetPassword() {
   } else {
     alert("Te hemos enviado un email para restablecer tu contraseña.");
   }
+}
+
+// Mostrar
+function mostrar() {
+  document.getElementById("auth").style.display = "none";
+  document.getElementById("contenido").style.display = "block";
+
+  document.getElementById("infoUsuario").innerHTML = `
+    <div style="text-align:left; line-height:1.6;">
+      <strong>Email:</strong> ${usuarioGlobal.email || "—"}<br>
+      <strong>Plan:</strong> ${usuarioGlobal.nivel_suscripcion || "—"}<br>
+      <strong>Estado:</strong> ${usuarioGlobal.suscripcion_activa ? "Activo" : "Inactivo"}<br>
+      <strong>Test:</strong> ${usuarioGlobal.test_aprobado ? "Aprobado" : "Pendiente"}<br>
+      <strong>Último test:</strong> ${
+        usuarioGlobal.fecha_ultimo_test 
+          ? new Date(usuarioGlobal.fecha_ultimo_test).toLocaleDateString()
+          : "No realizado"
+      }
+    </div>
+  `;
+
+  // 🔥 ESTA LÍNEA ES LA CLAVE
+  controlarTest();
+
+  const img = document.getElementById("imagenPlan");
+
+  if (usuarioGlobal.nivel_suscripcion === "A") {
+    img.src = "img/A.png";
+    img.style.border = "2px solid gold";
+  } else {
+    img.src = "img/B.png";
+    img.style.border = "2px solid #ccc";
+  }
+
+  img.style.display = "block";
 }
 
 function controlarTest() {
