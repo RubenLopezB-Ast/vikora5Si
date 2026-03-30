@@ -335,22 +335,7 @@ if (!userData.suscripcion_activa) {
 
 
 
-  if (insertError) {
-    alert("Error creando usuario: " + insertError.message);
-    return;
-  }
 
-  // volvemos a obtener el usuario
-  const { data: newUser } = await supabaseClient
-    .from("usuarios")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
-  usuarioGlobal = newUser;
-  mostrar();
-  return;
-}
 
 // 🔥 SI EXISTE → ENTRAMOS NORMAL
 usuarioGlobal = userData;
