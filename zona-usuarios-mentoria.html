@@ -459,8 +459,8 @@ function controlarTest() {
   const ahora = new Date();
 
   let fechaBase = usuarioGlobal.fecha_ultimo_test 
-    ? new Date(usuarioGlobal.fecha_ultimo_test)
-    : ahora;
+  ? new Date(usuarioGlobal.fecha_ultimo_test)
+  : new Date(usuarioGlobal.fecha_registro);
 
   let limite;
 
