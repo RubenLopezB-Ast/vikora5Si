@@ -297,6 +297,7 @@ async function register() {
 
   // 🔹 insertar en tu tabla
  
+//Login
 
 async function login() {
   const email = emailInput();
@@ -311,15 +312,19 @@ async function login() {
 
   const user = data.user;
 
+  // 🔥 Espera para asegurar sincronización
+  await new Promise(resolve => setTimeout(resolve, 500));
+
   const { data: userData, error: dbError } = await supabaseClient
     .from("usuarios")
     .select("*")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
-  if (dbError || !userData) {
-    alert("Cuenta pendiente de validación.\nEste proceso puede tardar hasta 48h.");
-    await supabaseClient.auth.signOut();
+  console.log("USER DATA:", userData);
+
+  if (!userData) {
+    alert("Usuario no encontrado en base de datos.");
     return;
   }
 
@@ -401,7 +406,7 @@ supabaseClient.auth.getSession().then(async ({ data }) => {
       .from("usuarios")
       .select("*")
       .eq("id", user.id)
-      .single();
+      .maysingle();
 
     if (!userData || !userData.suscripcion_activa) {
       await supabaseClient.auth.signOut();
