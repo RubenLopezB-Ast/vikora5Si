@@ -341,9 +341,30 @@ async function login() {
   mostrar();
 }
 
-// 🔒 BLOQUEO REAL
+//
 
-// 👁 MOSTRAR CONTENIDO
+// logout
+
+async function logout() {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    console.log("Error logout:", error);
+    alert("Error cerrando sesión");
+    return;
+  }
+
+  console.log("Logout correcto");
+
+  // 🔥 limpiar interfaz
+  document.getElementById("contenido").style.display = "none";
+  document.getElementById("auth").style.display = "block";
+
+  usuarioGlobal = null;
+
+  // opcional
+  location.reload();
+}
 
 
 
@@ -458,9 +479,15 @@ function controlarTest() {
 
   const ahora = new Date();
 
-  let fechaBase = usuarioGlobal.fecha_ultimo_test 
-  ? new Date(usuarioGlobal.fecha_ultimo_test)
-  : new Date(usuarioGlobal.fecha_registro);
+  let fechaBase;
+
+if (usuarioGlobal.fecha_ultimo_test) {
+  fechaBase = new Date(usuarioGlobal.fecha_ultimo_test);
+} else if (usuarioGlobal.fecha_registro) {
+  fechaBase = new Date(usuarioGlobal.fecha_registro);
+} else {
+  fechaBase = new Date(); // fallback seguro
+}
 
   let limite;
 
