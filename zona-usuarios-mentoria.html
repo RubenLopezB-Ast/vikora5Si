@@ -473,6 +473,12 @@ function mostrar() {
   }
 
   img.style.display = "block";
+
+    if (usuarioGlobal.nivel_suscripcion === "A") {
+    document.getElementById("botonExtra").style.display = "block";
+  } else {
+    document.getElementById("botonExtra").style.display = "none";
+  }
 }
 
 function controlarTest() {
