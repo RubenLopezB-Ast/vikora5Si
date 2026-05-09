@@ -9914,6 +9914,34 @@ body {
 
 }
 
+/* Select formularios */
+
+select.form-control{
+    color:#222 !important;
+    background-color:#fff !important;
+}
+
+select.form-control option{
+    color:#222;
+}
+
+/* FIX SELECT FORMULARIO */
+
+select.form-control{
+    color:#222 !important;
+    background:#fff !important;
+    height:auto !important;
+}
+
+select.form-control:focus{
+    color:#222 !important;
+    background:#fff !important;
+}
+
+select.form-control option{
+    color:#222 !important;
+    background:#fff !important;
+}
 
 
 
